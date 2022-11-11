@@ -1,0 +1,36 @@
+hostname = app.58.com, *.beacon.qq.com, *.gdt.qq.com, btrace.qq.com, home.mi.com, duckduckgo.com, api-access.pangolin-sdk-toutiao.com, mi.gdt.qq.com, open.e.kuaishou.com, list-app-m.i4.cn,  pan.baidu.com, issuecdn.baidupcs.com, 
+
+#58, app.58.com
+^https?:\/\/app\.58\.com\/api\/log\/ url reject
+
+#QQ, *.beacon.qq.com, *.gdt.qq.com, btrace.qq.com, 
+^https?:\/\/.+?\.beacon\.qq\.com url reject
+^https?:\/\/.+?\.l\.qq\.com url reject
+^https?:\/\/\w+\.gdt\.qq\.com url reject
+^https?:\/\/btrace\.qq\.com url reject-200
+
+#米家，home.mi.com
+^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/recommendation\/banner url reject
+
+#超级搜索, duckduckgo.com
+;百度 bd
+^https:\/\/duckduckgo.com\/\?q=bd\+([^&]+).+ url 302 https://www.baidu.com/s?wd=$1
+^https:\/\/duckduckgo.com\/\?q=([^+]+)\+bd.+ url 302 https://www.baidu.com/s?wd=$1
+;谷歌 默认无指令
+^https:\/\/duckduckgo.com\/\?q=([^&]+).+ url 302 https://www.google.com/search?q=$1
+
+#Youtube 中文字幕机翻，www.youtube.com
+https:\/\/www.youtube.com\/api\/timedtext\?.+&lang=(?!(zh|zh\-Hans)&)((?!&tlang=zh\-Hans).)*$ url request-header \sHTTP/1\.1(\r\n) request-header &tlang=zh-Hans HTTP/1.1$1
+
+#广告联盟去广告(https://raw.githubusercontent.com/app2smile/rules/master/module/adsense.conf),  api-access.pangolin-sdk-toutiao.com, mi.gdt.qq.com, open.e.kuaishou.com
+^https:\/\/(api-access\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/get_ads|open\.e\.kuaishou\.com\/rest\/e\/v3\/open\/univ$|mi\.gdt\.qq\.com\/gdt_mview\.fcg\?) url script-response-body  https://raw.githubusercontent.com/app2smile/rules/master/js/adsense.js
+
+#爱思助手，list-app-m.i4.cn
+^https?:\/\/list-app-m\.i4\.cn\/getopfstadinfo\.xhtml url reject
+
+#百度网盘，pan.baidu.com, issuecdn.baidupcs.com
+^https?:\/\/pan\.baidu\.com\/act\/api\/activityentry url reject
+^https?:\/\/pan\.baidu\.com\/rest\/\d\.\d\/pcs\/adx url reject
+^https?:\/\/issuecdn\.baidupcs\.com\/issue\/netdisk\/ts_ad\/ url reject-200
+^https:\/\/pan\.baidu\.com\/api\/certuser\/get url reject
+^https:\/\/pan\.baidu\.com\/pmall\/order\/privilege\/info url reject
