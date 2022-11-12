@@ -1221,8 +1221,6 @@ https://guanyu.longfor.com/app-server/api/v1/main/start url reject
 https://new-app-api.ylyk.com/v1/user/myinfo/adviser url reject
 # > 小米运动
 ^https:\/\/api-mifit-cn2\.huami\.com\/discovery\/mi\/cards\/startpage_ad url reject
-# > 小米商城开屏广告   主机名api.m.mi.com
-^https?:\/\/api\.m\.mi\.com\/v1\/app\/start url script-response-body https://gitlab.com/RuCu6/QuanX/-/raw/main/Scripts/mimall.js
 # > 金十数据开屏广告和应用内弹窗
 ^https?:\/\/jad-api\.jin10\.com\/ad url reject
 # > 医考帮
