@@ -1337,7 +1337,6 @@ https?:\/\/res\.xiaojukeji\.com\/resapi\/activity\/get(Ruled|Preload|PasMultiNot
 # > 转转（中间一行小图标被误杀了）
 ^https?:\/\/app\.zhuanzhuan\.com\/zzx\/transfer\/getConfigInfo$ url reject
 ^https?:\/\/pic1\.zhuanstatic\.com\/zhuanzh\/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}\.png\?t=5&qa=90 url reject-200
-^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php.*feed&a=trends url script-response-body https://codeberg.org/ddgksf2013/Cuttlefish/-/raw/master/Script/weibo_json.js
 # > 大众点评
 ^https?:\/\/img\.meituan\.net\/dpmobile\/.*.(gif|jpg) url reject-200
 # > 麦当劳
