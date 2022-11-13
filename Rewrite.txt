@@ -1,4 +1,4 @@
-hostname = list-app-m.i4.cn, *.baidu.com, *.chelaile.net.cn, cdn.*.chelaileapp.cn, m5.amap.com, sns.amap.com, p*.meituan.net, home.mi.com, zconfig.alibabausercontent.com,  api.m.mi.com, app.58.com, -redirector*.googlevideo.com,*.googlevideo.com,www.youtube.com,s.youtube.com,youtubei.googleapis.com, api.bspapp.com
+hostname = list-app-m.i4.cn, *.baidu.com, *.chelaile.net.cn, cdn.*.chelaileapp.cn, m5.amap.com, sns.amap.com, p*.meituan.net, home.mi.com, zconfig.alibabausercontent.com,  api.m.mi.com, app.58.com, -redirector*.googlevideo.com,*.googlevideo.com,www.youtube.com,s.youtube.com,youtubei.googleapis.com, api.bspapp.com,  duckduckgo.com
 
 #爱思助手, list-app-m.i4.cn
 ^https?:\/\/list-app-m\.i4\.cn\/getopfstadinfo\.xhtml url reject
@@ -34,11 +34,11 @@ hostname = list-app-m.i4.cn, *.baidu.com, *.chelaile.net.cn, cdn.*.chelaileapp.c
 
 #Youtube, -redirector*.googlevideo.com,*.googlevideo.com,www.youtube.com,s.youtube.com,youtubei.googleapis.com
 ;视频广告请求
-#^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad url script-echo-response https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/tinygif.gif
+#^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad url script-response-body https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube-fake.js
 (^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) url 302 $1$2$3
 ^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad url reject-200
 ；瀑布流|搜索|播放页|短视频|贴片 广告
-^https:\/\/youtubei\.googleapis\.com\/youtubei\/v\d\/(browse|next|player|search|reel\/reel_watch_sequence|guide) url script-response-body https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.js
+^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide) url script-response-body https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.js
 ;通用广告请求
 #^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v\d\/player\/ad_break url reject
 ^https?:\/\/(www|s)\.youtube\.com\/api\/stats\/ads url reject-200
@@ -47,3 +47,10 @@ hostname = list-app-m.i4.cn, *.baidu.com, *.chelaile.net.cn, cdn.*.chelaileapp.c
 
 #音乐弹幕, api.bspapp.com
 ^https?:\/\/api\.bspapp\.com\/client url script-response-body https://raw.githubusercontent.com/changle66/changle/main/Script/qtmusic.js
+
+#超级搜索,  duckduckgo.com
+;bd,百度搜索
+^https:\/\/duckduckgo.com\/\?q=bd\+([^&]+).+ url 302 https://www.baidu.com/s?wd=$1
+^https:\/\/duckduckgo.com\/\?q=((.(?!bd))+)\+bd.+ url 302 https://www.baidu.com/s?wd=$1
+;无指令默认为 Google
+^https:\/\/duckduckgo.com\/\?q=([^&]+).+ url 302 https://www.google.com/search?q=$1
