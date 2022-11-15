@@ -1,4 +1,4 @@
-hostname = list-app-m.i4.cn, *.baidu.com, *.chelaile.net.cn, cdn.*.chelaileapp.cn, m5.amap.com, sns.amap.com, p*.meituan.net, home.mi.com, zconfig.alibabausercontent.com,  api.m.mi.com, app.58.com, -redirector*.googlevideo.com,*.googlevideo.com,www.youtube.com,s.youtube.com,youtubei.googleapis.com, api.bspapp.com,  duckduckgo.com
+hostname = list-app-m.i4.cn, *.baidu.com, *.chelaile.net.cn, cdn.*.chelaileapp.cn, m5.amap.com, sns.amap.com, p*.meituan.net, home.mi.com, zconfig.alibabausercontent.com,  api.m.mi.com, app.58.com, -redirector*.googlevideo.com,*.googlevideo.com,www.youtube.com,s.youtube.com,youtubei.googleapis.com, api.bspapp.com,  duckduckgo.com, otheve.beacon.qq.com
 
 #爱思助手, list-app-m.i4.cn
 ^https?:\/\/list-app-m\.i4\.cn\/getopfstadinfo\.xhtml url reject
@@ -48,9 +48,15 @@ hostname = list-app-m.i4.cn, *.baidu.com, *.chelaile.net.cn, cdn.*.chelaileapp.c
 #音乐弹幕@ddgksf2013, api.bspapp.com
 ^https?:\/\/api\.bspapp\.com\/client url script-response-body https://raw.githubusercontent.com/changle66/changle/main/Script/qtmusic.js
 
-#超级搜索@ddgksf2013,  duckduckgo.com
+#超级搜索@ddgksf2013, duckduckgo.com
 ;bd,百度搜索
 ^https:\/\/duckduckgo.com\/\?q=bd\+([^&]+).+ url 302 https://www.baidu.com/s?wd=$1
 ^https:\/\/duckduckgo.com\/\?q=((.(?!bd))+)\+bd.+ url 302 https://www.baidu.com/s?wd=$1
 ;无指令默认为 Google
 ^https:\/\/duckduckgo.com\/\?q=([^&]+).+ url 302 https://www.google.com/search?q=$1
+
+#腾讯QQ, otheve.beacon.qq.com
+^https?:\/\/.+?\.beacon\.qq\.com url reject
+^https?:\/\/btrace\.qq\.com url reject-200
+
+
