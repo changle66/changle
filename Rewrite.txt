@@ -32,7 +32,7 @@ hostname = list-app-m.i4.cn, *.baidu.com, *.chelaile.net.cn, cdn.*.chelaileapp.c
 #58同城, app.58.com
 ^https?:\/\/app\.58\.com\/api\/log\/ url reject
 
-#Youtube, *.googlevideo.com, youtubei.googleapis.com
+#Youtube@Maasea, *.googlevideo.com, youtubei.googleapis.com
 ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide) url script-response-body https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.js
 ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad url echo-response text/html echo-response https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/tinygif.gif
 
