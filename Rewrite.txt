@@ -1,8 +1,8 @@
 hostname = *.googlevideo.com, youtubei.googleapis.com, list-app-m.i4.cn, *.baidu.com, *.chelaile.net.cn, cdn.*.chelaileapp.cn, m5.amap.com, sns.amap.com, p*.meituan.net, home.mi.com, zconfig.alibabausercontent.com,  api.m.mi.com, app.58.com, api.bspapp.com,  duckduckgo.com, otheve.beacon.qq.com
 
-#Youtube@Maasea,@app2smile    , *.googlevideo.com, youtubei.googleapis.com
-^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide) url script-response-body https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.js
-^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad url echo-response text/html echo-response https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/tinygif.gif
+#Youtube  @Maasea,@app2smile    , *.googlevideo.com, youtubei.googleapis.com
+^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide) url script-response-body https://raw.githubusercontent.com/changle66/rules/master/js/youtube.js
+^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad url echo-response text/html echo-response https://raw.githubusercontent.com/changle66/sgmodule/master/Script/Youtube/tinygif.gif
 
 #爱思助手, list-app-m.i4.cn
 ^https?:\/\/list-app-m\.i4\.cn\/getopfstadinfo\.xhtml url reject
