@@ -291,8 +291,6 @@ DOMAIN-SUFFIX,v3.fstats.xyz
 DOMAIN-SUFFIX,wss.haoyundmn.com 
 DOMAIN-SUFFIX,new.xiongzhangad.com  
 DOMAIN-SUFFIX,alexametrics.com 
-DOMAIN-SUFFIX,ads.internal.unity3d.com
-DOMAIN-SUFFIX,ads.prd.ie.internal.unity3d.com
 DOMAIN-SUFFIX,atm.youku.com
 DOMAIN-SUFFIX,das.api.youku.com
 DOMAIN-SUFFIX,das.mobile.youku.com
@@ -394,7 +392,6 @@ DOMAIN-SUFFIX,cm.ad.bilibili.com
 DOMAIN-SUFFIX,cm.adcommon.bilibili.com
 DOMAIN-SUFFIX,cm.game.bilibili.com
 DOMAIN-SUFFIX,cm.track.biligame.bilibili.com
-DOMAIN-SUFFIX,yximgs.com
 DOMAIN-SUFFIX,cm.downloader.commercial.kuaishou.com
 DOMAIN-SUFFIX,cm.ad.gifshow.com
 DOMAIN-SUFFIX,cm.kwad.com
@@ -12887,11 +12884,7 @@ DOMAIN,ad.51wnl-cq.com
 DOMAIN,adextra.51wnl-cq.com
 DOMAIN,log.51wnl-cq.com
 DOMAIN,r.51wnl-cq.com
-DOMAIN,ns.itunes.apple.com
 DOMAIN,appldnld.apple.com
-DOMAIN,mesu.apple.com
-DOMAIN,xp.apple.com
-DOMAIN,gdmf.apple.com
 DOMAIN,ad.mobile.youku.com
 DOMAIN,iyes.youku.com
 DOMAIN,pl.cp31.ott.cibntv.net
@@ -13084,7 +13077,6 @@ DOMAIN,apppv.zol.com.cn
 DOMAIN,pvnapp.zol.com.cn
 DOMAIN,tunion-api.m.taobao.com
 DOMAIN,39d83s.com
-DOMAIN,js-ad.a.yximgs.com
 DOMAIN,adui.tg.meitu.com
 DOMAIN,aaid.uyunad.com
 DOMAIN,ads.nicovideo.jp
@@ -13133,3 +13125,5 @@ DOMAIN,adse.ximalaya.com
 DOMAIN,adse.wsa.ximalaya.com
 DOMAIN,adbehavior.wsa.ximalaya.com
 DOMAIN,adsebs.ximalaya.com
+DOMAIN-SUFFIX,gdc.kg.qq.com
+DOMAIN-suffix, u3.ucweb.com
