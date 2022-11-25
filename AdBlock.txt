@@ -13127,3 +13127,4 @@ DOMAIN,adbehavior.wsa.ximalaya.com
 DOMAIN,adsebs.ximalaya.com
 DOMAIN-SUFFIX,gdc.kg.qq.com
 DOMAIN-suffix, u3.ucweb.com
+DOMAIN-SUFFIX,iadsdk.apple.com
