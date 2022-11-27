@@ -1321,5 +1321,3 @@ https?:\/\/res\.xiaojukeji\.com\/resapi\/activity\/get(Ruled|Preload|PasMultiNot
 #> 简讯  主机名  api.tipsoon.com  本规则由 豆豆分享
 ^https?:\/\/api\.tipsoon\.com\/api\/v1\/top\/ad url reject-img
 
-# 微博去除开屏广告  sdkapp.uve.weibo.com, wbapp.uve.weibo.com
-^https?:\/\/(sdk|wb)app\.uve\.weibo\.com\/(interface\/sdk\/sdkad.php|wbapplua\/wbpullad.lua) url script-response-body https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo/weiboLaunch.js
