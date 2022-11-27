@@ -1274,8 +1274,6 @@ https?:\/\/res\.xiaojukeji\.com\/resapi\/activity\/get(Ruled|Preload|PasMultiNot
 ^https?:\/\/api\.touker\.com\/v2\/IAdvertisementAPI\.queryStartAdvertisement url reject-200
 # > 去除公众号商品推广 主机名 mp.weixin.qq.com
 ^https?:\/\/mp\.weixin\.qq\.com\/mp\/cps_product_info\?action url reject-dict
-# > 小米商城开屏广告   主机名api.m.mi.com
-^https?:\/\/api\.m\.mi\.com\/v1\/app\/start url script-response-body https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/mimall.js
 
 # > 平安好车主弹窗
 ^https?:\/\/hcz-member\.pingan\.com\.cn\/micro-api\/homepage\/do\/app\/popbox\/getTopPopBox url reject-200
@@ -1300,9 +1298,6 @@ https?:\/\/res\.xiaojukeji\.com\/resapi\/activity\/get(Ruled|Preload|PasMultiNot
 ^http:\/\/pgdt\.gtimg\.cn\/gdt\/.+\.png url reject
 ^http:\/\/pgdt\.gtimg\.cn\/gdt\/.+\.jpg url reject
 ^http:\/\/pgdt\.gtimg\.cn\/.+\/snscosdownload\/SH\/reserved\/.+ url reject
-
-# 微博去除开屏广告
-^https?:\/\/(sdk|wb)app\.uve\.weibo\.com\/(interface\/sdk\/sdkad.php|wbapplua\/wbpullad.lua) url script-response-body https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo/weiboLaunch.js
 
 # > 中国移动（倒计时还在）主机名  res.app.coc.10086.cn
 ^https?:\/\/res\.app\.coc\.10086\.cn\/group\d\/M00\/[0-9]{2}\/[A-Z0-9]{2}\/.+.jpg url reject-200
