@@ -1,4 +1,4 @@
-hostname = *.googlevideo.com, youtubei.googleapis.com, list-app-m.i4.cn, *.baidu.com, *.chelaile.net.cn, cdn.*.chelaileapp.cn, m5.amap.com, sns.amap.com, p*.meituan.net, home.mi.com, zconfig.alibabausercontent.com,  api.m.mi.com, app.58.com, api.bspapp.com,  duckduckgo.com, otheve.beacon.qq.com, 
+hostname = *.googlevideo.com, youtubei.googleapis.com, list-app-m.i4.cn, *.baidu.com, *.chelaile.net.cn, cdn.*.chelaileapp.cn, m5.amap.com, sns.amap.com, p*.meituan.net, home.mi.com, zconfig.alibabausercontent.com,  api.m.mi.com, app.58.com, api.bspapp.com,  duckduckgo.com, otheve.beacon.qq.com, api-access.pangolin-sdk-toutiao.com, mi.gdt.qq.com, open.e.kuaishou.com, 
 
 #Youtube  @Maasea,@app2smile    , *.googlevideo.com, youtubei.googleapis.com
 ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide) url script-response-body https://raw.githubusercontent.com/changle66/sgmodule/master/Script/Youtube/youtube.js
@@ -50,4 +50,5 @@ hostname = *.googlevideo.com, youtubei.googleapis.com, list-app-m.i4.cn, *.baidu
 ^https?:\/\/.+?\.beacon\.qq\.com url reject
 ^https?:\/\/btrace\.qq\.com url reject-200
 
-
+#广告联盟去广告@app2smile  ,  api-access.pangolin-sdk-toutiao.com, mi.gdt.qq.com, open.e.kuaishou.com
+^https:\/\/(api-access\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/get_ads|open\.e\.kuaishou\.com\/rest\/e\/v3\/open\/univ$|mi\.gdt\.qq\.com\/gdt_mview\.fcg\?) url script-response-body https://raw.githubusercontent.com/app2smile/rules/master/js/adsense.js
