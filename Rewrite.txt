@@ -51,4 +51,4 @@ hostname = *.googlevideo.com, youtubei.googleapis.com, list-app-m.i4.cn, *.baidu
 ^https?:\/\/btrace\.qq\.com url reject-200
 
 #12306  , ad.12306.cn
-^https?:\/\/ad\.12306\.cn\/ad\/ser\/getAdList url script-response-body https://raw.githubusercontent.com/changle66/changle/main/Script/12306.js
+^https?:\/\/ad\.12306\.cn\/ad\/ser\/getAdList url script-response-body https://raw.githubusercontent.com/ddgksf2013/Scripts/master/12306.js
