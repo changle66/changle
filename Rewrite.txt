@@ -1,4 +1,4 @@
-hostname = *.googlevideo.com, youtubei.googleapis.com, list-app-m.i4.cn, *.baidu.com, *.chelaile.net.cn, cdn.*.chelaileapp.cn, m5.amap.com, sns.amap.com, p*.meituan.net, home.mi.com, zconfig.alibabausercontent.com,  api.m.mi.com, app.58.com, api.bspapp.com,  duckduckgo.com, otheve.beacon.qq.com, api-access.pangolin-sdk-toutiao.com, mi.gdt.qq.com, open.e.kuaishou.com, 
+hostname = *.googlevideo.com, youtubei.googleapis.com, list-app-m.i4.cn, *.baidu.com, *.chelaile.net.cn, cdn.*.chelaileapp.cn, m5.amap.com, sns.amap.com, p*.meituan.net, home.mi.com, zconfig.alibabausercontent.com,  api.m.mi.com, app.58.com, duckduckgo.com, otheve.beacon.qq.com, api-access.pangolin-sdk-toutiao.com, mi.gdt.qq.com, open.e.kuaishou.com, 
 
 #Youtube  @Maasea,@app2smile    , *.googlevideo.com, youtubei.googleapis.com
 ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide) url script-response-body https://raw.githubusercontent.com/changle66/sgmodule/master/Script/Youtube/youtube.js
@@ -35,9 +35,6 @@ hostname = *.googlevideo.com, youtubei.googleapis.com, list-app-m.i4.cn, *.baidu
 
 #58同城  , app.58.com
 ^https?:\/\/app\.58\.com\/api\/log\/ url reject
-
-#音乐弹幕@ddgksf2013  , api.bspapp.com
-^https?:\/\/api\.bspapp\.com\/client url script-response-body https://raw.githubusercontent.com/changle66/changle/main/Script/qtmusic.js
 
 #超级搜索@ddgksf2013  , duckduckgo.com
 ;bd,百度搜索
