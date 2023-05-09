@@ -1,0 +1,51 @@
+hostname = *.googlevideo.com, youtubei.googleapis.com, list-app-m.i4.cn, *.baidu.com, *.chelaile.net.cn, cdn.*.chelaileapp.cn, m5.amap.com, sns.amap.com, p*.meituan.net, home.mi.com, zconfig.alibabausercontent.com,  api.m.mi.com, app.58.com, duckduckgo.com, otheve.beacon.qq.com, api-access.pangolin-sdk-toutiao.com, mi.gdt.qq.com, open.e.kuaishou.com, 
+
+#Youtube  @Maasea,@app2smile    , *.googlevideo.com, youtubei.googleapis.com
+^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide) url script-response-body https://raw.githubusercontent.com/changle66/sgmodule/master/Script/Youtube/youtube.js
+^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad url echo-response text/html echo-response https://raw.githubusercontent.com/changle66/sgmodule/master/Script/Youtube/tinygif.gif
+
+#爱思助手, list-app-m.i4.cn
+^https?:\/\/list-app-m\.i4\.cn\/getopfstadinfo\.xhtml url reject
+
+#百度网盘, *.baidu.com
+^https:\/\/pan\.baidu\.com\/pmall\/order\/privilege\/info url reject
+^https?:\/\/update\.pan\.baidu\.com\/statistics url reject
+
+#车来了  , *.chelaile.net.cn, cdn.*.chelaileapp.cn
+^https?:\/\/api.chelaile.net.cn\/adpub\/ url reject
+^https?:\/\/cdn\.\w{3}\.chelaileapp\.cn\/(api\/)?adpub url reject-dict
+^https?:\/\/oimage([a-z])([0-9])\.ydstatic\.com\/.+?adpublish url reject
+
+#高德地图  , m5.amap.com, sns.amap.com
+^https?:\/\/m5.amap.com\/ws\/valueadded\/ url reject
+^https?://m\d\.amap\.com/ws/message/notice/list? url reject-200
+^https?://sns\.amap\.com/ws/msgbox/pull? url reject-200
+
+#美团  , p*.meituan.net
+^https?:\/\/p\d{1}\.meituan\.net\/(adunion|display|linglong|mmc|wmbanner)\/ url reject
+
+#米家  , home.mi.com
+^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/recommendation\/banner url reject
+
+#闲鱼  , zconfig.alibabausercontent.com
+^https?:\/\/zconfig\.alibabausercontent\.com\/zconfig url reject
+
+#小米商城  ,  api.m.mi.com
+^https?:\/\/api\.m\.mi\.com\/v\d\/app\/start url reject
+
+#58同城  , app.58.com
+^https?:\/\/app\.58\.com\/api\/log\/ url reject
+
+#超级搜索@ddgksf2013  , duckduckgo.com
+;bd,百度搜索
+^https:\/\/duckduckgo.com\/\?q=bd\+([^&]+).+ url 302 https://www.baidu.com/s?wd=$1
+^https:\/\/duckduckgo.com\/\?q=((.(?!bd))+)\+bd.+ url 302 https://www.baidu.com/s?wd=$1
+;无指令默认为 Google
+^https:\/\/duckduckgo.com\/\?q=([^&]+).+ url 302 https://www.google.com/search?q=$1
+
+#腾讯QQ  , otheve.beacon.qq.com
+^https?:\/\/.+?\.beacon\.qq\.com url reject
+^https?:\/\/btrace\.qq\.com url reject-200
+
+#广告联盟去广告@app2smile  ,  api-access.pangolin-sdk-toutiao.com, mi.gdt.qq.com, open.e.kuaishou.com
+^https:\/\/(api-access\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/get_ads|open\.e\.kuaishou\.com\/rest\/e\/v3\/open\/univ$|mi\.gdt\.qq\.com\/gdt_mview\.fcg\?) url script-response-body https://raw.githubusercontent.com/app2smile/rules/master/js/adsense.js
