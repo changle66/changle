@@ -1,5 +1,4 @@
 #!name=谷歌重定向
-#!author= changle66
 [Rewrite]
 ^https?:\/\/(ditu|maps).google\.cn https://maps.google.com 302
 ^https?:\/\/(www.)?(g|google)\.cn https://www.google.com 302
