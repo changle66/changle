@@ -1,0 +1,33 @@
+[General]
+bypass-system = true
+skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, e.crashlytics.com, captive.apple.com,192.168.0.1/24,192.168.1.1/24
+bypass-tun = 10.0.0.0/8,100.64.0.0/10,127.0.0.0/8,169.254.0.0/16,172.16.0.0/12,192.0.0.0/24,192.0.2.0/24,192.88.99.0/24,192.168.0.0/16,198.18.0.0/15,198.51.100.0/24,203.0.113.0/24,224.0.0.0/4,255.255.255.255/32
+dns-server = system, 119.29.29.29,223.5.5.5
+ipv6 = false
+
+[Proxy Group]
+DE = select,url=http://www.gstatic.com/generate_204,interval=86400,timeout=5,select=0,policy-regex-filter=德|DE
+NL = select,url=http://www.gstatic.com/generate_204,interval=86400,timeout=5,select=0,policy-regex-filter=荷兰|NL
+HK = select,url=http://www.gstatic.com/generate_204,interval=86400,timeout=5,select=0,policy-regex-filter=港|HK|hk|Hong Kong|HongKong|hongkong
+UK = select,url=http://www.gstatic.com/generate_204,interval=86400,timeout=5,select=0,policy-regex-filter=英|UK
+SG = select,url=http://www.gstatic.com/generate_204,interval=86400,timeout=5,select=0,policy-regex-filter=新加坡|SG|狮城|Singapore
+JP = select,url=http://www.gstatic.com/generate_204,interval=86400,timeout=5,select=0,policy-regex-filter=日本|川日|东京|大阪|泉日|埼玉|沪日|深日|[^-]日|JP|Japan
+KR = select,url=http://www.gstatic.com/generate_204,interval=86400,timeout=5,select=0,policy-regex-filter=KR|Korea|KOR|首尔|韩|韓
+
+[Rule]
+#分流修正https://raw.githubusercontent.com/changle66/changle/main/fenliuxiuzheng, DIRECT
+# China ANS
+RULE-SET,https://raw.githubusercontent.com/VirgilClyne/GetSomeFries/main/ruleset/ASN.China.list, DIRECT
+#去广告规则
+RULE-SET,https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules.list,REJECT
+#屏蔽IOS系统更新
+RULE-SET,http://script.hub/file/_start_/https://raw.githubusercontent.com/fmz200/wool_scripts/main/QuantumultX/filter/apple.snippet/_end_/apple.list?type=rule-set&target=shadowrocket-rule-set&del=true, REJECT
+#禁用UDP 443端口
+AND,((PROTOCOL,UDP),(DEST-PORT,443)),REJECT-NO-DROP
+#ip判定为中国则直连
+geoip, cn, DIRECT
+#其余走代理
+FINAL,Proxy
+
+[MITM]
+hostname = 
