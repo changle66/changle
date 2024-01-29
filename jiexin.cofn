@@ -15,7 +15,7 @@ JP = select,url=http://www.gstatic.com/generate_204,interval=86400,timeout=5,sel
 KR = select,url=http://www.gstatic.com/generate_204,interval=86400,timeout=5,select=0,policy-regex-filter=KR|Korea|KOR|首尔|韩|韓
 
 [Rule]
-#分流修正https://raw.githubusercontent.com/changle66/changle/main/fenliuxiuzheng, DIRECT
+#分流修正https://raw.githubusercontent.com/changle66/changle/main/fenliuxiuzheng.list, DIRECT
 # China ANS
 RULE-SET,https://raw.githubusercontent.com/VirgilClyne/GetSomeFries/main/ruleset/ASN.China.list, DIRECT
 #去广告规则
