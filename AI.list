@@ -31,8 +31,6 @@ DOMAIN, makersuite.google.com
 # Claude
 DOMAIN-SUFFIX, anthropic.com
 DOMAIN-SUFFIX, claude.ai
-IP-CIDR, 160.79.104.023, no-resolve
-IP-CIDR6, 26076bc048, no-resolve
 
 # JetBrains AI
 DOMAIN-SUFFIX, grazie.ai
