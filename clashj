@@ -5,7 +5,7 @@ ruleset=WhatsApp,clash-classic:https://raw.githubusercontent.com/blackmatrix7/io
 ruleset=规则之外,[]FINAL
 
 
-custom_proxy_group=节点选择`select`[]香港节点`[]最低延迟`[]DIRECT`[]东亚`[]东亚(不自动测速)`.*
+custom_proxy_group=节点选择`select`[]香港节点`[]最低延迟`[]DIRECT`[]东亚`.*
 custom_proxy_group=Gemini`select`[]DIRECT`[]节点选择`[]最低延迟`[]香港节点`[]东亚`.*
 custom_proxy_group=OpenAI`select`[]DIRECT`[]节点选择`[]最低延迟`[]香港节点`[]东亚`.*
 custom_proxy_group=WhatsApp`select`[]DIRECT`[]节点选择`[]最低延迟`[]香港节点`[]东亚`.*
