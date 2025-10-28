@@ -9,7 +9,7 @@ custom_proxy_group=节点选择`select`[]香港节点`[]DIRECT`.*
 custom_proxy_group=Gemini`select`[]DIRECT`[]节点选择`[]香港节点`.*
 custom_proxy_group=OpenAI`select`[]DIRECT`[]节点选择`[]香港节点`.*
 custom_proxy_group=WhatsApp`select`[]DIRECT`[]节点选择`[]香港节点`.*
-custom_proxy_group=规则之外`select`[]节点选择`[]DIRECT`[]REJECT`[]最低延迟
+custom_proxy_group=规则之外`select`[]节点选择`[]DIRECT`[]REJECT
 custom_proxy_group=香港节点`url-test`(港|HK|Hong Kong)`http://connectivitycheck.platform.hicloud.com/generate_204`300,50
 custom_proxy_group=东亚节点`url-test`(台湾|新加坡|日本|韩|SG)`http://connectivitycheck.platform.hicloud.com/generate_204`300,50
 
