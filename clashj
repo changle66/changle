@@ -1,18 +1,31 @@
 [custom]
-ruleset=Gemini,clash-classic:https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.yaml
-ruleset=OpenAI,clash-classic:https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml
+
+ruleset=AI,clash-classic:https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.yaml
+ruleset=AI,clash-classic:https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml
 ruleset=WhatsApp,clash-classic:https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Whatsapp/Whatsapp.yaml
-ruleset=规则之外,[]FINAL
+ruleset=AI,clash-classic:https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Claude/Claude.yaml
+ruleset=AI,https://raw.githubusercontent.com/changle66/changle/refs/heads/main/cici.list
+ruleset=FINAL,[]FINAL
 
-
-custom_proxy_group=节点选择`select`[]香港节点`[]DIRECT`.*
-custom_proxy_group=Gemini`select`[]DIRECT`[]节点选择`[]香港节点`.*
-custom_proxy_group=OpenAI`select`[]DIRECT`[]节点选择`[]香港节点`.*
-custom_proxy_group=WhatsApp`select`[]DIRECT`[]节点选择`[]香港节点`.*
-custom_proxy_group=规则之外`select`[]节点选择`[]DIRECT`[]REJECT
-custom_proxy_group=香港节点`url-test`(港|HK|Hong Kong)`http://connectivitycheck.platform.hicloud.com/generate_204`300,50
-custom_proxy_group=东亚节点`url-test`(台湾|新加坡|日本|韩|SG)`http://connectivitycheck.platform.hicloud.com/generate_204`300,50
+custom_proxy_group=AI`select`[]东亚节点`[]DIRECT`.*
+custom_proxy_group=WhatsApp`select`[]DIRECT`.*
+custom_proxy_group=规则之外`select`[]节点选择`[]DIRECT`[]REJECT`[]最低延迟
+custom_proxy_group=东亚节点`url-test`(台|TW|Taiwan|日|JP|Japan|韩|KR|Korea|SG|Singapore|马来西亚|MY|Malaysia)`http://connectivitycheck.platform.hicloud.com/generate_204`300,50
 
 
 #.yaml的写法   ruleset=策略组名字,clash-classic: +源网址
 #.list的写法，直接加网址
+
+
+
+
+
+
+
+
+
+
+
+
+
+
