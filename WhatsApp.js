@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WA 翻译助手 (changle)
 // @namespace    changle-wa-translator
-// @version      6.2.0
+// @version      6.2.1
 // @description  中文→外语翻译 · 自动发送 · 缓存 · 面板 · 热键 · DeepSeek API
 // @match        https://web.whatsapp.com/*
 // @grant        GM_addStyle
@@ -9,10 +9,8 @@
 // @grant        GM_setValue
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setClipboard
-// @grant        unsafeWindow
 // @connect      api.deepseek.com
 // @connect      api.xiaomimimo.com
-// @connect      *
 // @run-at       document-end
 // @noframes
 // ==/UserScript==
@@ -23,7 +21,7 @@
   const pageWin = (typeof unsafeWindow !== 'undefined') ? unsafeWindow : window;
   const pageDoc = pageWin.document;
 
-  const SCRIPT_VERSION = '6.2.0';
+  const SCRIPT_VERSION = '6.2.1';
 
   /* ═══ 默认模型（唯一定义） ═══ */
   const DEFAULT_MODEL = 'deepseek-v4-flash';
@@ -75,14 +73,7 @@
   const LANG_META = {
     en: { name: 'English', label: '英语', badge: 'EN' },
     de: { name: 'German',  label: '德语', badge: 'DE' },
-    ja: { name: 'Japanese', label: '日语', badge: 'JA' },
-    ko: { name: 'Korean',  label: '韩语', badge: 'KO' },
-    fr: { name: 'French',  label: '法语', badge: 'FR' },
-    es: { name: 'Spanish', label: '西语', badge: 'ES' },
   };
-
-  /* ═══ 非拉丁文字检测（用于首字母大写判断） ═══ */
-  const NON_LATIN_RE = /[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uAC00-\uD7AF]/;
 
   /* ═══ HTTP 错误映射 ═══ */
   const HTTP_ERROR_MAP = {
@@ -154,17 +145,17 @@
     state.autoSend  = !!gm.get(SK.autoSend, false);
     state.enabled   = !!gm.get(SK.enabled, true);
     state.lang      = gm.get(SK.lang, 'en');
-    state.customLang= (gm.get(SK.customLang, '') || 'French').toString().trim();
+    state.customLang= (gm.get(SK.customLang, '') || 'English').toString().trim();
     state.temp      = clamp(Number(gm.get(SK.temp, CFG.TEMP)) || CFG.TEMP, 0, 2);
     state.apiIdx    = clamp(Number(gm.get(SK.apiIdx, 0)) || 0, 0, API_ENDPOINTS.length - 1);
     state.customApiUrl = (gm.get(SK.customApiUrl, '') || '').toString().trim();
-    if (!['en', 'de', 'ja', 'ko', 'fr', 'es', 'custom'].includes(state.lang)) { state.lang = 'en'; state.saveImmediate('lang'); }
+    if (!['en', 'de', 'custom'].includes(state.lang)) { state.lang = 'en'; state.saveImmediate('lang'); }
   }
 
   /* ═══ 状态 ═══ */
   const state = {
     apiKey: '', model: CFG.MODEL, autoSend: false, enabled: true,
-    lang: 'en', customLang: 'French', temp: CFG.TEMP, apiIdx: 0,
+    lang: 'en', customLang: 'English', temp: CFG.TEMP, apiIdx: 0,
     customApiUrl: '',
     busy: false, _ac: null, _saveTimers: {},
     _lastSendTime: 0,
@@ -354,13 +345,58 @@
   function sysPrompt(toLang) {
     const safe = sanitizeLang(toLang);
     if (safe === 'English') {
-      return `Translate into casual WhatsApp English. Native speaker texting style — contractions, short sentences, natural slang. Adapt Chinese internet slang to English equivalents. Preserve @mentions URLs numbers *formatting*. DO NOT add any emoji. Output ONLY the translation.`;
+      return `Translate the following Chinese message into natural WhatsApp English.
+
+STYLE:
+- Casual texting: contractions, lowercase ok, short sentences
+- Sound like a native speaker texting a friend, not a formal email
+- Match the energy/tone of the original (enthusiastic→enthusiastic, dry→dry)
+
+SLANG ADAPTATION:
+- Map Chinese internet slang to English equivalents (牛逼→sick, 哈哈哈→lmao, 摆烂→give up, 666→nice/goat)
+- Keep informal abbreviations natural (好的→ok/alright, 不知道→idk, 随便→whatever)
+
+RULES:
+- Keep output length SIMILAR to source, do NOT expand or add info
+- Preserve existing emoji from source, do NOT add new emoji
+- Preserve @mentions, URLs, numbers, *formatting*
+- Use half-width punctuation, no trailing periods on short messages
+- Output ONLY the translation, nothing else`;
     }
-    return `Translate into casual WhatsApp ${safe}. Native speaker texting style — contractions, short sentences, matching tone. Adapt Chinese slang naturally. Preserve @mentions URLs numbers *formatting*. DO NOT add any emoji. Output ONLY the translation.`;
+    return `Translate the following Chinese message into natural WhatsApp ${safe}.
+
+STYLE:
+- Casual texting style: short sentences, matching tone of the original
+- Sound like a native speaker texting a friend
+- Match the energy level (enthusiastic→enthusiastic, dry→dry)
+
+SLANG ADAPTATION:
+- Adapt Chinese internet slang to ${safe} equivalents naturally
+- Keep informal expressions natural and idiomatic
+
+RULES:
+- Keep output length SIMILAR to source, do NOT expand or add info
+- Preserve existing emoji from source, do NOT add new emoji
+- Preserve @mentions, URLs, numbers, *formatting*
+- Use appropriate punctuation for ${safe} texting norms
+- Output ONLY the translation, nothing else`;
   }
 
   function sysPromptToChinese() {
-    return `Translate into casual WhatsApp Simplified Chinese. Natural spoken Chinese, short sentences, matching tone. Preserve @mentions URLs numbers *formatting*. DO NOT add any emoji. Output ONLY the translation.`;
+    return `Translate the following message into natural WhatsApp Simplified Chinese.
+
+STYLE:
+- Casual spoken Chinese, short sentences, natural texting style
+- Sound like a Chinese native speaker texting a friend
+- Match the energy/tone of the original
+- Use common Chinese internet expressions where appropriate (ok→好的, lmao→哈哈哈, idk→不知道)
+
+RULES:
+- Keep output length SIMILAR to source, do NOT expand or add info
+- Preserve existing emoji from source, do NOT add new emoji
+- Preserve @mentions, URLs, numbers, *formatting*
+- Use Chinese punctuation (，。！？) naturally
+- Output ONLY the translation, nothing else`;
   }
 
   function cleanOutput(raw) {
@@ -374,9 +410,6 @@
     const m = t.match(/^([\s\S]+?)\n{2,}(解释|说明|Note|Explanation)\s*[:：]/i);
     if (m?.[1]) t = m[1].trim();
     t = t.replace(/^\n+/, '');
-    if (t.length > 0 && !NON_LATIN_RE.test(t.charAt(0))) {
-      t = t.charAt(0).toUpperCase() + t.slice(1);
-    }
     return t.trim();
   }
 
@@ -467,9 +500,13 @@
     },
     async send() {
       for (let i = 0; i < TIMING.SEND_RETRY; i++) {
-        const btn = this.find()?.closest('footer')?.querySelector(
-          'span[data-icon*="send"], span[data-icon*="Send"], button[aria-label*="Send"], button[aria-label*="发送"]'
-        )?.closest('button,[role="button"]');
+        const footer = this.find()?.closest('footer');
+        if (!footer) { await sleep(TIMING.SEND_RETRY_DELAY); continue; }
+        /* 只取主发送按钮（aria-label 精确匹配 "Send"/"发送"），
+           排除附件/媒体预览弹窗中的同名按钮 — 媒体弹窗不在 footer 内 */
+        const btn = footer.querySelector(
+          'button[aria-label="Send"], button[aria-label="发送"]'
+        );
         if (btn) { btn.click(); return true; }
         await sleep(TIMING.SEND_RETRY_DELAY);
       }
@@ -554,7 +591,7 @@
       ui.updateBadge(); ui.setStatus(state.enabled ? '已启用' : '已关闭');
     } else if (k === 'x') {
       e.preventDefault();
-      const ls = state.customLang ? ['en', 'de', 'ja', 'ko', 'fr', 'es', 'custom'] : ['en', 'de', 'ja', 'ko', 'fr', 'es'];
+      const ls = state.customLang ? ['en', 'de', 'custom'] : ['en', 'de'];
       state.lang = ls[(ls.indexOf(state.lang) + 1) % ls.length]; state.saveImmediate('lang');
       ui.updateBadge(); ui.setStatus('目标: ' + state.langLabel);
     }
@@ -625,14 +662,10 @@
 <select id="wt-sl">
   <option value="en">英语 English</option>
   <option value="de">德语 German</option>
-  <option value="ja">日语 Japanese</option>
-  <option value="ko">韩语 Korean</option>
-  <option value="fr">法语 French</option>
-  <option value="es">西语 Spanish</option>
   <option value="custom">自定义…</option>
 </select>
 <div class="wt-cl-wrap" id="wt-cl-wrap">
-  <input id="wt-cl" type="text" placeholder="如 French / Spanish / Japanese">
+  <input id="wt-cl" type="text" placeholder="如 English / German / Japanese">
   <div class="wt-hint">输入目标语言的英文名称</div>
 </div>
 <label>温度 <small>(0~2, 越低越保守)</small></label>
@@ -840,7 +873,7 @@
   };
   if (!watchFooter()) {
     const obs = new MutationObserver(() => { if (watchFooter()) obs.disconnect(); });
-    obs.observe(document.body, { childList: true, subtree: true });
+    obs.observe(document.body, { childList: true, subtree: true, attributes: false, characterData: false });
   }
 
   ui.setStatus('就绪');
