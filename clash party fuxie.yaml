@@ -1,0 +1,146 @@
+# Clash Party YAML 覆写
+# 用法：在 Clash Party 的「覆写」页面导入本文件，再把它绑定到目标订阅。
+# 本文件只接管 DNS、嗅探、策略组、规则集与分流规则；节点仍由订阅提供。
+
+# 使用 ! 完整替换订阅内可能自带的 DNS 配置，避免残留条目影响解析。
+dns!:
+  enable: true
+  ipv6: false
+  cache-algorithm: arc
+  respect-rules: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter-mode: blacklist
+  fake-ip-filter:
+    - "rule-set:private_domain"
+    - "rule-set:cn_domain"
+    - "+.lan"
+    - "+.local"
+    - "+.localdomain"
+    - "+.miwifi.com"
+    - "+.tplinkwifi.net"
+    - "+.msftconnecttest.com"
+    - "+.msftncsi.com"
+    - "time.*.com"
+    - "time.windows.com"
+    - "time.apple.com"
+    - "+.pool.ntp.org"
+    - "+.ntp.org"
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  direct-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  direct-nameserver-follow-policy: true
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  nameserver-policy:
+    "rule-set:microsoft": [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
+    "rule-set:bing": [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
+    "rule-set:cn_domain": [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
+    "rule-set:geolocation_non_cn": [https://1.1.1.1/dns-query, https://8.8.8.8/dns-query]
+
+# 完整替换订阅内可能自带的嗅探配置。
+sniffer!:
+  enable: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  force-domain:
+    - "+.v2ex.com"
+  skip-domain:
+    - "+.baidu.com"
+    - "+.alipay.com"
+    - "+.alicdn.com"
+    - "+.tmall.com"
+    - "+.taobao.com"
+    - "+.jd.com"
+    - "+.qq.com"
+    - "+.wechat.com"
+    - "+.douyin.com"
+    - "+.byteimg.com"
+    - "+.mi.com"
+    - "+.xiaomi.com"
+    - "Mijia Cloud"
+
+# 前置新增策略组。include-all 会自动匹配当前订阅中的所有节点。
++proxy-groups:
+  - {name: 节点选择, type: select, proxies: [自动选择, 港台节点, 新加坡节点, 美国节点, 其他节点]}
+  - {name: AI, type: select, proxies: [新加坡节点, 美国节点, 自动选择]}
+  - {name: GitHub, type: select, proxies: [节点选择, 美国节点, 新加坡节点, 自动选择, 直接连接]}
+  - {name: WhatsApp, type: select, proxies: [新加坡节点, 港台节点, 美国节点, 自动选择]}
+  - {name: Bing, type: select, proxies: [直接连接, 节点选择, 美国节点, 新加坡节点, 自动选择]}
+  - {name: Microsoft, type: select, proxies: [直接连接, 节点选择, 自动选择]}
+  - {name: Steam, type: select, proxies: [节点选择, 港台节点, 新加坡节点, 美国节点, 自动选择, 直接连接]}
+  - {name: SteamCN, type: select, proxies: [直接连接, Steam]}
+  - {name: 港台节点, type: url-test, include-all: true, tolerance: 50, interval: 300, url: "http://www.apple.com/library/test/success.html", filter: "(港|HK|Hong Kong|HongKong|台|TW|Taiwan)"}
+  - {name: 新加坡节点, type: url-test, include-all: true, tolerance: 50, interval: 300, url: "http://www.apple.com/library/test/success.html", filter: "(新加坡|狮城|SG|Singapore|狮)"}
+  - {name: 美国节点, type: url-test, include-all: true, tolerance: 50, interval: 300, url: "http://www.apple.com/library/test/success.html", filter: "(美|美国|US|USA|United States|America)"}
+  - {name: 其他节点, type: url-test, include-all: true, tolerance: 50, interval: 300, url: "http://www.apple.com/library/test/success.html", filter: "^((?!(港|HK|Hong Kong|HongKong|台|TW|Taiwan|新加坡|狮城|SG|Singapore|狮|美|美国|US|USA|United States|America)).)*$"}
+  - {name: 自动选择, type: url-test, include-all: true, tolerance: 50, interval: 300, url: "http://www.apple.com/library/test/success.html"}
+  - {name: 兜底规则, type: select, proxies: [节点选择, 港台节点, 新加坡节点, 美国节点, 其他节点, 自动选择, 直接连接]}
+  # 与常规订阅一致：面板手动测速使用 Clash Party 的全局测速地址。
+  - {name: 直接连接, type: select, proxies: [DIRECT]}
+
+# 本覆写使用的规则集。深度合并，保留机场订阅自身引用的规则集。
+rule-providers:
+  anti_ad: &domain {type: http, interval: 86400, behavior: domain, format: mrs, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.mrs"}
+  private_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs" }
+  private_ip: {type: http, interval: 86400, behavior: ipcidr, format: mrs, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geoip/private.mrs"}
+  cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs" }
+  cn_ip: {type: http, interval: 86400, behavior: ipcidr, format: mrs, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
+  openai: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/openai.mrs" }
+  claude: {type: http, interval: 86400, behavior: classical, format: text, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Claude/Claude.list"}
+  gemini: {type: http, interval: 86400, behavior: classical, format: yaml, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.yaml"}
+  cici: {type: http, interval: 86400, behavior: classical, format: text, url: "https://raw.githubusercontent.com/changle66/changle/refs/heads/main/cici.list"}
+  github: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs" }
+  whatsapp: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/whatsapp.mrs" }
+  bing: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bing.mrs" }
+  microsoft: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs" }
+  steam: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs" }
+  geolocation_non_cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs" }
+
+# 前置插入规则：它们优先于机场订阅的原始规则执行。
++rules:
+  - RULE-SET,anti_ad,REJECT
+  - RULE-SET,private_domain,DIRECT
+  - RULE-SET,private_ip,DIRECT,no-resolve
+  - RULE-SET,openai,AI
+  - RULE-SET,claude,AI
+  - RULE-SET,gemini,AI
+  - RULE-SET,cici,AI
+  - RULE-SET,github,GitHub
+  - RULE-SET,whatsapp,WhatsApp
+  - RULE-SET,bing,Bing
+  - RULE-SET,microsoft,Microsoft
+  - DOMAIN,steamcdn-a.akamaihd.net,SteamCN
+  - DOMAIN,csgo.wmsj.cn,SteamCN
+  - DOMAIN,dl.steam.clngaa.com,SteamCN
+  - DOMAIN,dl.steam.ksyna.com,SteamCN
+  - DOMAIN,dota2.wmsj.cn,SteamCN
+  - DOMAIN,st.dl.bscstorage.net,SteamCN
+  - DOMAIN,st.dl.eccdnx.com,SteamCN
+  - DOMAIN,st.dl.pinyuncloud.com,SteamCN
+  - DOMAIN,steampipe.steamcontent.tnkjmec.com,SteamCN
+  - DOMAIN,steampowered.com.8686c.com,SteamCN
+  - DOMAIN,steamstatic.com.8686c.com,SteamCN
+  - DOMAIN,wmsjsteam.com,SteamCN
+  - DOMAIN,xz.pphimalayanrt.com,SteamCN
+  - DOMAIN-SUFFIX,steamchina.com,SteamCN
+  - DOMAIN-SUFFIX,steamcontent.com,SteamCN
+  - DOMAIN-SUFFIX,steamusercontent.com,SteamCN
+  - RULE-SET,steam,Steam
+  - RULE-SET,cn_domain,DIRECT
+  - RULE-SET,cn_ip,DIRECT,no-resolve
+  - RULE-SET,geolocation_non_cn,兜底规则
+  - MATCH,兜底规则
